@@ -10,11 +10,11 @@
   <packaging>pom</packaging>
 
   <modules>
-<!--    <module>../crypto-trading-common</module>-->
+    <module>../crypto-trading-common</module>
     <module>../crypto-trading-market-data</module>
-<!--    <module>../crypto-trading-order</module>-->
-<!--    <module>../crypto-trading-user</module>-->
-<!--    <module>../crypto-trading-api-gateway</module>-->
+    <module>../crypto-trading-order</module>
+    <module>../crypto-trading-user</module>
+    <module>../crypto-trading-api-gateway</module>
     <module>../crypto-trading-eureka-server</module>
   </modules>
 
