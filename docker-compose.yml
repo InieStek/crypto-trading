@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-eureka-server/Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - crypto-network
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-api-gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - crypto-network
+
+  market-data:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-market-data/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - crypto-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-order/Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - MONGODB_HOST=mongo
+      - MONGODB_PORT=27017
+      - MONGODB_DATABASE=cryptotrading
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - ORDER_EXPIRATION_TIME=30m
+    depends_on:
+      - eureka-server
+      - mongo
+    networks:
+      - crypto-network
+
+  user-service:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-user/Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - MONGODB_HOST=mongo
+      - MONGODB_PORT=27017
+      - MONGODB_DATABASE=cryptotrading_users
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - USER_REGISTRATION_ENABLED=true
+      - USER_EMAIL_VERIFICATION_REQUIRED=false
+    depends_on:
+      - eureka-server
+      - mongo
+    networks:
+      - crypto-network
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - crypto-network
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8084:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass
+    depends_on:
+      - mongo
+    networks:
+      - crypto-network
+
+networks:
+  crypto-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
