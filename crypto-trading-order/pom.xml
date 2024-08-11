@@ -83,6 +83,7 @@
 
   <build>
     <plugins>
+      <!-- Spring Boot Maven Plugin -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -94,7 +95,16 @@
             </exclude>
           </excludes>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal> <!-- Ensure the repackage goal is included -->
+            </goals>
+          </execution>
+        </executions>
       </plugin>
+
+      <!-- Maven Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -106,11 +116,13 @@
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
+              <version>${lombok.version}</version> <!-- Ensure this property is defined -->
             </path>
           </annotationProcessorPaths>
         </configuration>
       </plugin>
+
+      <!-- Maven Surefire Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -118,5 +130,6 @@
       </plugin>
     </plugins>
   </build>
+
 
 </project>
