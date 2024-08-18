@@ -1,12 +1,17 @@
 package pl.project.cryptotradinguser.service;
 
+import java.util.List;
+import pl.project.cryptotradinguser.exception.UserNotFoundException;
+import pl.project.cryptotradinguser.exception.UserValidationException;
 import pl.project.cryptotradinguser.model.User;
 
 public interface UserService {
-  User createUser(User user);
-  User getUserById(String id);
-  User getUserByUsername(String username);
-  void updateUser(User user);
-  void deleteUser(String id);
+  User createUser(User user) throws UserValidationException;
+  User getUserById(String id) throws UserNotFoundException;
+  User getUserByUsername(String username) throws UserNotFoundException;
+  void updateUser(User user) throws UserNotFoundException, UserValidationException;
+  void deleteUser(String id) throws UserNotFoundException;
+  boolean isUsernameAvailable(String username);
+  List<User> getAllUsers();
 
 }

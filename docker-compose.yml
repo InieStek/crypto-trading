@@ -96,6 +96,35 @@ services:
     networks:
       - crypto-network
 
+  translation-service:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-translation/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - crypto-network
+
+  i18n-service:
+    build:
+      context: .
+      dockerfile: ./crypto-trading-i18n/Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - CRYPTO_I18N_TRANSLATION_SERVICE_URL=http://translation-service:5001/translate
+    depends_on:
+      - eureka-server
+      - translation-service
+    networks:
+      - crypto-network
+
 networks:
   crypto-network:
     driver: bridge
