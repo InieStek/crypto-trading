@@ -79,11 +79,31 @@ public class UserServiceImpl implements UserService {
   // Metoda pomocnicza do zmiany hasła
   public void changePassword(String userId, String oldPassword, String newPassword)
       throws UserNotFoundException, UserValidationException {
-    var user = getUserById(userId);
+    User user = getUserById(userId);
     if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
       throw new UserValidationException("Old password is incorrect");
+    }
+    if (!UserValidator.isPasswordValid(newPassword)) {
+      throw new UserValidationException("New password does not meet requirements");
     }
     user.setPassword(passwordEncoder.encode(newPassword));
     userRepository.save(user);
   }
+
+
+  public void verifyEmail(String token) throws UserValidationException {
+    User user = userRepository.findByVerificationToken(token)
+        .orElseThrow(() -> new UserValidationException("Invalid verification token"));
+    user.setEmailVerified(true);
+    user.setVerificationToken(null);
+    userRepository.save(user);
+  }
+
+  @Override
+  public void resetPassword(String email, String newPassword)
+      throws UserNotFoundException, UserValidationException {
+
+  }
+
+
 }

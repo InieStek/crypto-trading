@@ -17,6 +17,9 @@ public class User implements CommonUser {
   private String email;
   private UserRole role;
   private UserDetails userDetails;
+  private String verificationToken;
+  private boolean emailVerified;
+
 
   @Override
   public String getRole() {

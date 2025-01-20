@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   eureka-server:
     build:
       context: .
@@ -35,6 +36,8 @@ services:
       - eureka-server
     networks:
       - crypto-network
+    volumes:
+      - ~/.m2:/root/.m2
 
   order-service:
     build:
@@ -65,8 +68,6 @@ services:
       - MONGODB_PORT=27017
       - MONGODB_DATABASE=cryptotrading_users
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-      - USER_REGISTRATION_ENABLED=true
-      - USER_EMAIL_VERIFICATION_REQUIRED=false
     depends_on:
       - eureka-server
       - mongo
@@ -124,6 +125,16 @@ services:
       - translation-service
     networks:
       - crypto-network
+
+  frontend:
+    build:
+      context: ./crypto-trading-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - crypto-network
+
 
 networks:
   crypto-network:

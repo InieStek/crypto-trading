@@ -45,11 +45,20 @@
       <artifactId>jackson-databind</artifactId>
     </dependency>
 
-    <!-- Lombok to reduce boilerplate code -->
+    <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.34</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Project Dependencies -->
+    <dependency>
+      <groupId>pl.project</groupId>
+      <artifactId>crypto-trading-i18n</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
 
     <!-- Testing -->
@@ -57,18 +66,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>pl.project</groupId>
-      <artifactId>crypto-trading-i18n</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>pl.project</groupId>
-      <artifactId>crypto-trading-i18n</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -108,7 +105,7 @@
         <executions>
           <execution>
             <goals>
-              <goal>repackage</goal> <!-- Ensure the repackage goal is included -->
+              <goal>repackage</goal>
             </goals>
           </execution>
         </executions>
@@ -118,7 +115,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version> <!-- Specify the version -->
+        <version>3.11.0</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
@@ -126,6 +123,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>

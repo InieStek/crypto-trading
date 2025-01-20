@@ -13,5 +13,9 @@ public interface UserService {
   void deleteUser(String id) throws UserNotFoundException;
   boolean isUsernameAvailable(String username);
   List<User> getAllUsers();
+  void verifyEmail(String token) throws UserValidationException;
+  void resetPassword(String email, String newPassword) throws UserNotFoundException, UserValidationException;
+  void changePassword(String userId, String oldPassword, String newPassword)
+      throws UserNotFoundException, UserValidationException;
 
 }

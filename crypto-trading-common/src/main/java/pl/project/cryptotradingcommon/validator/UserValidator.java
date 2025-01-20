@@ -17,4 +17,7 @@ public class UserValidator {
     return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
   }
 
+  public static boolean isPasswordValid(String password) {
+    return password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*");
+  }
 }

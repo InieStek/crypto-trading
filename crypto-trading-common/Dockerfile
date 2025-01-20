@@ -1,9 +1,9 @@
-FROM openjdk:21-jdk-slim
-
+# Build stage
+FROM maven:3.9.4-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
-COPY target/*.jar app.jar
+# Kopiowanie źródeł common
+COPY ./ /app
 
-EXPOSE 8072
-
-ENTRYPOINT ["java","-jar","app.jar"]
+# Instalowanie artefaktów w lokalnym repozytorium
+RUN mvn clean install -DskipTests
