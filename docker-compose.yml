@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   eureka-server:
     build:
       context: .
@@ -10,6 +9,11 @@ services:
       - "8761:8761"
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "0.5"
 
   api-gateway:
     build:
@@ -23,6 +27,11 @@ services:
       - eureka-server
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "0.5"
 
   market-data:
     build:
@@ -38,6 +47,11 @@ services:
       - crypto-network
     volumes:
       - ~/.m2:/root/.m2
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "0.5"
 
   order-service:
     build:
@@ -56,6 +70,11 @@ services:
       - mongo
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "0.5"
 
   user-service:
     build:
@@ -73,6 +92,11 @@ services:
       - mongo
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "0.5"
 
   mongo:
     image: mongo:latest
@@ -82,6 +106,11 @@ services:
       - mongodb_data:/data/db
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: "0.25"
 
   mongo-express:
     image: mongo-express
@@ -96,6 +125,11 @@ services:
       - mongo
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: "0.25"
 
   translation-service:
     build:
@@ -109,6 +143,11 @@ services:
       - eureka-server
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: "0.25"
 
   i18n-service:
     build:
@@ -125,6 +164,11 @@ services:
       - translation-service
     networks:
       - crypto-network
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: "0.25"
 
   frontend:
     build:
@@ -134,7 +178,11 @@ services:
       - "3000:80"
     networks:
       - crypto-network
-
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: "0.25"
 
 networks:
   crypto-network:
